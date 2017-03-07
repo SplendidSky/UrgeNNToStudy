@@ -35,7 +35,13 @@ public class UnlockReceiver extends BroadcastReceiver {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                             }
-                        });
+                        })
+                        .setNegativeButton("告诉CC", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                MainActivity.sendMail("NN 学完了", "NN 以后也会像现在这样乖乖的");
+                            }
+                        }).show();
             }
         }
     }

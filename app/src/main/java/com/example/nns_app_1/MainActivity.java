@@ -54,15 +54,15 @@ public class MainActivity extends AppCompatActivity {
 
     private UnlockReceiver unlockReceiver;
 
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            if (msg.what == TURN_ON_WIFI_GPRS) {
-                wifiManager.setWifiEnabled(true);
-                //gprsEnabled(true);
-            }
-        }
-    };
+//    private Handler handler = new Handler() {
+//        @Override
+//        public void handleMessage(Message msg) {
+//            if (msg.what == TURN_ON_WIFI_GPRS) {
+//                wifiManager.setWifiEnabled(true);
+//                //gprsEnabled(true);
+//            }
+//        }
+//    };
 
 
     private static final int MY_REQUEST_CODE = 9999;
@@ -122,6 +122,8 @@ public class MainActivity extends AppCompatActivity {
             @SuppressLint("WifiManagerLeak")
             @Override
             public void onClick(View view) {
+                NNAPPApplicaion.FINISH_STUDY = false;
+
                 boolean valid = true;
                 if (date_over.getHours() < date_begin.getHours() || (date_over.getHours() == date_begin.getHours() && date_over.getMinutes() <= date_begin.getMinutes())) {
                     toast = Toast.makeText(getApplicationContext(), "你是想学到明天吗？", Toast.LENGTH_SHORT);
@@ -154,9 +156,9 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             NNAPPApplicaion.FINISH_STUDY = true;
-                            Message message = new Message();
-                            message.what = TURN_ON_WIFI_GPRS;
-                            handler.sendMessage(message);
+//                            Message message = new Message();
+//                            message.what = TURN_ON_WIFI_GPRS;
+//                            handler.sendMessage(message);
                         }
                     };
 
@@ -290,7 +292,7 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void sendMail(String mail_subject, String mail_content) {
+    public static void sendMail(String mail_subject, String mail_content) {
         final MailSenderInfo mailSenderInfo = new MailSenderInfo();
         mailSenderInfo.setMailServerHost("smtp.qq.com");
         mailSenderInfo.setMailServerPort("465");
