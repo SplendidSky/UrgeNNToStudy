@@ -52,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
     private Timer timer;
     private TimerTask timerTask;
 
+    private static MailSenderInfo mailSenderInfo;
+
     private UnlockReceiver unlockReceiver;
 
 //    private Handler handler = new Handler() {
@@ -82,6 +84,8 @@ public class MainActivity extends AppCompatActivity {
         date_over = now;
         //tvTime_begin.setText(getTime(now));
         tvTime_over.setText(getTime(now));
+
+        mailSenderInfo = new MailSenderInfo();
 
         unlockReceiver = new UnlockReceiver();
         IntentFilter filter = new IntentFilter();
@@ -292,17 +296,23 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    public static native void initSendMailSenderInfo();
+
     public static void sendMail(String mail_subject, String mail_content) {
-        final MailSenderInfo mailSenderInfo = new MailSenderInfo();
-        mailSenderInfo.setMailServerHost("smtp.qq.com");
-        mailSenderInfo.setMailServerPort("465");
-        mailSenderInfo.setValidate(true);
-        mailSenderInfo.setUserName("chenweichen1117@qq.com");
-        mailSenderInfo.setPassword("puhmebaysdombhch");
-        mailSenderInfo.setFromAddress("chenweichen1117@qq.com");
-        mailSenderInfo.setToAddress("chenweichen1117@qq.com");
+//        mailSenderInfo.setMailServerHost("smtp.qq.com");
+//        mailSenderInfo.setMailServerPort("465");
+//        mailSenderInfo.setValidate(true);
+//        mailSenderInfo.setUserName("chenweichen1117@qq.com");
+//        mailSenderInfo.setPassword("puhmebaysdombhch");
+//        mailSenderInfo.setFromAddress("chenweichen1117@qq.com");
+//        mailSenderInfo.setToAddress("chenweichen1117@qq.com");
+//        mailSenderInfo.setSubject(mail_subject);
+//        mailSenderInfo.setContent(mail_content);
+
+        initSendMailSenderInfo();
         mailSenderInfo.setSubject(mail_subject);
         mailSenderInfo.setContent(mail_content);
+
 
         Thread thread = new Thread(new Runnable() {
             @Override
@@ -365,6 +375,10 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         // cancel timer
         timer.cancel();
+    }
+
+    static {
+        System.loadLibrary("native-lib");
     }
 
 }
